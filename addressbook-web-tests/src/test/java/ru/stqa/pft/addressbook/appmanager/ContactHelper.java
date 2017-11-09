@@ -13,6 +13,10 @@ public class ContactHelper extends HelperBase {
     super(wd);
   }
 
+  public void gotoAddNewContact() {
+    click(By.linkText("add new"));
+  }
+
   public void returnToHomePage() {
     click(By.linkText("home page"));
   }
@@ -28,7 +32,13 @@ public class ContactHelper extends HelperBase {
     type(By.name("mobile"), contactData.getMobilePhone());
     type(By.name("email"), contactData.getEmail());
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      if (contactData.getGroup() != null) {
+        try {
+          new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+        } catch (NoSuchElementException ex) {
+          System.out.println("Группа " + contactData.getGroup() + " не существует"); //надо усовершенствовать, реализовав создание новой группы в такой ситуации
+        }
+      }
     }
     else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -62,5 +72,16 @@ public class ContactHelper extends HelperBase {
 
   public void initContactDetailsModification() {
     click(By.name("modifiy"));
+  }
+
+  public void createContact(ContactData contactData) {
+    gotoAddNewContact();
+    fillContactForm(contactData, true);
+    submitContactCreation();
+    returnToHomePage();
+  }
+
+  public boolean isThereAContact() {
+    return isElementPresent(By.name("selected[]"));
   }
 }
