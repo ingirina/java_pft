@@ -17,17 +17,16 @@ public class GroupCreationTests extends TestBase {
   @DataProvider
   public Iterator<Object[]> validGroups() {
     List<Object[]> list = new ArrayList<Object[]>();
-    list.add(new Object[] {"test1", "header1", "footer1"});
-    list.add(new Object[] {"test2", "header2", "footer2"});
-    list.add(new Object[] {"test3", "header3", "footer3"});
+    list.add(new Object[] {new GroupData().withName("test1").withHeader("header 1").withFooter("footer 1")});
+    list.add(new Object[] {new GroupData().withName("test2").withHeader("header 2").withFooter("footer 2")});
+    list.add(new Object[] {new GroupData().withName("test3").withHeader("header 3").withFooter("footer 3")});
     return list.iterator();
   }
 
   @Test(dataProvider = "validGroups")
-  public void testGroupCreation(String name, String header, String footer) {
+  public void testGroupCreation(GroupData group) {
     app.goTo().GroupPage();
     Groups before = app.group().all();
-    GroupData group = new GroupData().withName(name).withHeader(header).withFooter(footer);
     app.group().create(group);
     assertThat(app.group().count(), equalTo(before.size() + 1));
     Groups after = app.group().all();
