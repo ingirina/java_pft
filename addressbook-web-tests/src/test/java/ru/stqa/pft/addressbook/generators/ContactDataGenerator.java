@@ -58,10 +58,11 @@ public class ContactDataGenerator {
 
   private List<ContactData> generateContacts(int count) {
     List<ContactData> contacts = new ArrayList<ContactData>();
+    File photo = new File("src/test/resources/testfile.png");
     for (int i = 0; i < count; i++) {
       contacts.add(new ContactData().withFirstName(String.format("FirstName%s", i)).withLastName(String.format("LastName%s", i))
               .withHomePhone(String.format("123-456-789%s", i)).withAddress(String.format("123 New Str Apt. %s", i))
-              .withEmail(String.format("test%s@gmail.com", i)));
+              .withEmail(String.format("test%s@gmail.com", i)).withPhoto(photo));
     }
     return contacts;
   }
