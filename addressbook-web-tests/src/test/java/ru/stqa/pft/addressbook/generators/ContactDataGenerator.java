@@ -21,6 +21,9 @@ public class ContactDataGenerator {
   @Parameter(names = "-f", description = "Target file")
   public String file;
 
+  @Parameter(names = "-d", description = "Data format")
+  public String format;
+
   public static void main(String[] args) throws IOException {
     ContactDataGenerator generator = new ContactDataGenerator();
     JCommander jCommander = new JCommander(generator);
@@ -35,25 +38,31 @@ public class ContactDataGenerator {
 
   private void run() throws IOException {
     List<ContactData> contacts = generateContacts(count);
-    saveAsXml(contacts, new File(file));
+    if (format.equals("csv")) {
+      saveAsCsv(contacts, new File(file));
+    } else if (format.equals("xml")) {
+      saveAsXml(contacts, new File(file));
+    } else {
+      System.out.println("Unrecognized file format " + format);
+    }
   }
 
   private void saveAsCsv(List<ContactData> contacts, File file) throws IOException {
-    Writer writer = new FileWriter(file);
-    for (ContactData contact : contacts) {
-      writer.write(String.format(("%s;%s;%s;%s;%s\n"), contact.getFirstName(), contact.getLastName(), contact.getHomePhone(),
-              contact.getAddress(), contact.getEmail()));
+    try (Writer writer = new FileWriter(file)) {
+      for (ContactData contact : contacts) {
+        writer.write(String.format(("%s;%s;%s;%s;%s\n"), contact.getFirstName(), contact.getLastName(), contact.getHomePhone(),
+                contact.getAddress(), contact.getEmail()));
+      }
     }
-    writer.close();
   }
 
   private void saveAsXml(List<ContactData> contacts, File file) throws IOException {
     XStream xStream = new XStream();
     xStream.processAnnotations(ContactData.class);
     String xml = xStream.toXML(contacts);
-    Writer writer = new FileWriter(file);
-    writer.write(xml);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(xml);
+    }
   }
 
   private List<ContactData> generateContacts(int count) {

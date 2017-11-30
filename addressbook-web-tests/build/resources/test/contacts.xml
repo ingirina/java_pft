@@ -1,0 +1,26 @@
+<list>
+  <contact>
+    <firstName>FirstName0</firstName>
+    <lastName>LastName0</lastName>
+    <address>123 New Str Apt. 0</address>
+    <homePhone>123-456-7890</homePhone>
+    <email>test0@gmail.com</email>
+    <photo>src\test\resources\testfile.png</photo>
+  </contact>
+  <contact>
+    <firstName>FirstName1</firstName>
+    <lastName>LastName1</lastName>
+    <address>123 New Str Apt. 1</address>
+    <homePhone>123-456-7891</homePhone>
+    <email>test1@gmail.com</email>
+    <photo>src\test\resources\testfile.png</photo>
+  </contact>
+  <contact>
+    <firstName>FirstName2</firstName>
+    <lastName>LastName2</lastName>
+    <address>123 New Str Apt. 2</address>
+    <homePhone>123-456-7892</homePhone>
+    <email>test2@gmail.com</email>
+    <photo>src\test\resources\testfile.png</photo>
+  </contact>
+</list>
